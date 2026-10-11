@@ -288,6 +288,17 @@ img.ai{width:1.2em;height:1.2em;object-fit:contain;vertical-align:-.28em;pointer
 .crate.hint{filter:drop-shadow(0 0 7px var(--hint)) drop-shadow(0 0 3px var(--hint));z-index:5}
 .soko-me{position:absolute;pointer-events:none;transition:left .07s linear,top .07s linear;z-index:3;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle,#fff8,#fff0 70%);line-height:1}
 .soko-me img.ai{width:100%;height:100%}
+/* ---- 1.2 drawn pieces (the CSS/SVG drawing stays underneath as the fallback) ---- */
+.lamp:has(>img.sp){background:none;box-shadow:none}
+.lamp:has(>img.sp)::after{display:none}
+.lamp img.bon{opacity:0;transition:opacity .15s}
+.lamp.lit img.bon{opacity:1}
+.lamp.lit:has(>img.sp){filter:drop-shadow(0 0 10px rgba(255,214,0,.7))}
+.pipe .pi img.pimg{width:1.5em;height:1.5em;object-fit:contain;filter:drop-shadow(0 2px 1px rgba(0,0,0,.3))}
+.crate:has(>img.sp)>svg{display:none}
+.crate img.c1{opacity:0}
+.crate.home img.c1{opacity:1}
+.crate.home:has(>img.sp)::after{content:none}
 /* 1.1 drawn pieces: when the picture is there the CSS shape steps aside */
 img.sp{pointer-events:none;-webkit-user-drag:none;user-select:none}
 img.sp.full{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -1255,6 +1266,7 @@ he: {
   ru_unblock: '<p>המכונית האדומה ⭐ צריכה לצאת מהפתח בצד ימין ➜. גררו רכבים ומשאיות <b>רק בכיוון שלהם</b> כדי לפנות לה דרך.</p><p>אפשר גם להקיש על רכב (מופיעים המקומות שאליהם הוא יכול לזוז) ואז להקיש על המקום. כל הזזה = מהלך אחד, לא משנה כמה רחוק.</p>',
   ru_blocks: '<p>גררו צורות מלמטה ללוח (או הקישו על צורה ואז על הלוח). שורה או עמודה מלאה — <b>נעלמת</b> ✨.</p><p><b>בשלבים:</b> נקו את כל הכוכבים ⭐ — כל כוכב נעלם כשהשורה או העמודה שלו מתמלאת. הכוכבים ניתנים לפי מספר הצורות שהשתמשתם בהן.</p><p><b>באינסופי:</b> ממשיכים עד שאין מקום לאף צורה. כמה שורות ביחד = יותר נקודות 🔥.</p>',
   ru_flow: '<p>גררו קו מנקודה אל הנקודה <b>באותו צבע</b>. קווים לא נחתכים — קו חדש חותך קו ישן שעובר בדרכו.</p><p>מחברים את כל הזוגות <b>וממלאים את כל הלוח</b> 🌈. מהלך נספר כשעוברים לצבע אחר; הכי טוב = מהלך אחד לכל צבע.</p>',
+  picsOffline: 'תמונות בלי אינטרנט', picsOfflineD: 'תמונות הפאזל (כ-11MB) יורדות כשבוחרים בהן. אפשר להוריד את כולן עכשיו — עדיף ב-Wi-Fi — ואז הן עובדות גם בלי רשת.', picsGet: 'הורד את כל התמונות', picsDone: 'כל התמונות שמורות בטלפון',
   g_slide: 'פאזל הזזה', g_lights: 'הדלק את הנורות', g_pipes: 'צינורות', g_soko: 'מחסן',
   peek: 'הצץ', otherPic: 'תמונה אחרת', slideGoal: 'הקישו על חלק ליד המקום הריק כדי להזיז אותו — סדרו את התמונה', slideNum: 'מספרים קטנים על חלקי התמונה', slideNumD: 'עוזר לדעת איפה כל חלק — אפשר לכבות למי שרוצה אתגר',
   pk_kids: 'ילדים', pk_quote: 'משפטים', pk_nature: 'נופים', pk_num: 'מספרים', pk_mine: 'התמונות שלי', picKind: 'מה מסדרים',
@@ -1310,6 +1322,7 @@ en: {
   ru_unblock: '<p>The red car ⭐ must leave through the gap on the right ➜. Drag cars and trucks <b>only along their own direction</b> to clear its way.</p><p>You can also tap a vehicle (the places it can go light up) and then tap a place. Each slide is one move, however far.</p>',
   ru_blocks: '<p>Drag shapes from below onto the board (or tap a shape, then the board). A full row or column <b>disappears</b> ✨.</p><p><b>Levels:</b> clear every star ⭐ — a star goes when its row or column fills. Stars are given for how few shapes you used.</p><p><b>Endless:</b> keep going until no shape fits. Several lines at once = more points 🔥.</p>',
   ru_flow: '<p>Drag a line from a dot to the dot of the <b>same colour</b>. Lines never cross — a new line cuts an old one in its way.</p><p>Join every pair <b>and fill the whole board</b> 🌈. A move counts when you switch to another colour; best = one move per colour.</p>',
+  picsOffline: 'Pictures offline', picsOfflineD: 'Puzzle pictures (about 11 MB) download when you pick them. You can get them all now — Wi-Fi is best — and then they work without internet.', picsGet: 'Download all pictures', picsDone: 'All pictures are on this phone',
   g_slide: 'Slide Puzzle', g_lights: 'Light Them Up', g_pipes: 'Pipes', g_soko: 'Warehouse',
   peek: 'Peek', otherPic: 'Another picture', slideGoal: 'Tap a piece next to the empty spot to move it — put the picture back together', slideNum: 'Small numbers on picture pieces', slideNumD: 'Helps to see where each piece goes — turn off for a challenge',
   pk_kids: 'Kids', pk_quote: 'Sayings', pk_nature: 'Views', pk_num: 'Numbers', pk_mine: 'My photos', picKind: 'What to sort',
@@ -1339,7 +1352,7 @@ ar: { subtitle: 'ألغاز لكل العائلة!', rules: 'كيف نلعب', s
    PuzzleNest — app core (storage · settings · screens · sound · confetti · art)
    Shell taken from FamilyNest 1.3 (themes, day/night, storage shim, sounds, art fallback).
    ===================================================================== */
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.2.1';
 const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const P_ = 'puzzle_';
@@ -2436,7 +2449,10 @@ UI.flow = (() => {
 const PIC_KINDS = ['kids', 'quote', 'nature', 'num', 'mine'];
 const PIC_ICON = { kids: '🧸', quote: '💬', nature: '🏔️', num: '🔢', mine: '📷' };
 // drawn pictures shipped as files (counts grow when the art pack arrives)
-const PIC_FILES = { kids: 0, quote: 1, nature: 0 };
+// 1.2 art pack: 24 kids, 24 views, 23 sayings (no. 23 had a spelling mistake — left out, the code writes it)
+const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+const PIC_FILES = { kids: range(1, 24), nature: range(1, 24), quote: range(1, 22).concat([24]) };
+const PIC_ALL = Object.entries(PIC_FILES).flatMap(([k, L]) => L.map(n => 'pic-' + k + '-' + String(n).padStart(2, '0') + '.webp'));
 const PW = 768, PH = 1024;                        // every picture is 3:4, standing
 // sayings: Tanakh, Pirkei Avot, old proverbs — free to use
 const QUOTES = [
@@ -2447,19 +2463,30 @@ const QUOTES = [
 ];
 const KIDS = ['lion', 'whale', 'rocket', 'unicorn', 'frog', 'bee', 'dino', 'train', 'cat', 'owl'];
 const NATURE = ['sunset', 'mountains', 'lake', 'desert', 'night', 'flowers', 'rainbow', 'autumn'];
-const picCount = kind => kind === 'kids' ? PIC_FILES.kids + KIDS.length : kind === 'quote' ? PIC_FILES.quote + QUOTES.length : kind === 'nature' ? PIC_FILES.nature + NATURE.length : kind === 'mine' ? myPhotos().length : 1;
+const CODE_N = { kids: KIDS.length, nature: NATURE.length, quote: QUOTES.length };
+const picCount = kind => kind === 'mine' ? myPhotos().length : kind === 'num' ? 1 : (PIC_FILES[kind].length || CODE_N[kind]);
 const PIC_CACHE = {};
-// the picture: a URL (file, data URL) — or null for numbers
+// the picture: a file from the art pack (or a data URL) — null for numbers
 function picURL(kind, k) {
   if (kind === 'num') return null;
   if (kind === 'mine') { const L = myPhotos(); return L.length ? L[((k % L.length) + L.length) % L.length] : null; }
-  const n = picCount(kind); k = ((k % n) + n) % n;
-  if (k < PIC_FILES[kind]) return 'pic-' + kind + '-' + String(k + 1).padStart(2, '0') + '.webp';
-  const key = kind + ':' + k; if (PIC_CACHE[key]) return PIC_CACHE[key];
+  const F = PIC_FILES[kind];
+  if (F.length) { const n = F[((k % F.length) + F.length) % F.length]; return 'pic-' + kind + '-' + String(n).padStart(2, '0') + '.webp'; }
+  return picCode(kind, k);
+}
+// painted in code: the fallback when a file can't load (offline before it was ever seen)
+function picCode(kind, k) {
+  if (!CODE_N[kind]) return null;
+  const j = ((k % CODE_N[kind]) + CODE_N[kind]) % CODE_N[kind], key = kind + ':' + j; if (PIC_CACHE[key]) return PIC_CACHE[key];
   const cv = document.createElement('canvas'); cv.width = PW; cv.height = PH; const g = cv.getContext('2d');
-  const j = k - PIC_FILES[kind];
   try { if (kind === 'kids') paintKids(g, KIDS[j], j); else if (kind === 'nature') paintNature(g, NATURE[j], j); else paintQuote(g, QUOTES[j], j); } catch (e) {}
   return (PIC_CACHE[key] = cv.toDataURL('image/jpeg', .86));
+}
+// download every picture once so they all work without internet (the SW keeps them)
+async function cacheAllPics(onStep) {
+  let n = 0;
+  for (const f of PIC_ALL) { try { await fetch(f); } catch (e) {} n++; if (onStep) onStep(n, PIC_ALL.length); }
+  LS.set('picsCached', APP_VERSION);
 }
 /* ---------- painting helpers ---------- */
 function grad(g, stops, x0, y0, x1, y1) { const G = g.createLinearGradient(x0 || 0, y0 || 0, x1 == null ? 0 : x1, y1 == null ? PH : y1); stops.forEach((c, i) => G.addColorStop(i / (stops.length - 1), c)); return G; }
@@ -2596,7 +2623,7 @@ UI.slide = (() => {
     const G = C.ui.g, url = picURL(C.x.kind, C.x.pk); C.ui.url = url;
     const fit = a => { const A = G.W / G.H; if (a > A) { G.bh = G.H; G.bw = G.H * a; } else { G.bw = G.W; G.bh = G.W / a; } G.ox = (G.bw - G.W) / 2; G.oy = (G.bh - G.H) / 2; };
     fit(.75);
-    if (url && /\.webp$/.test(url)) { const im = new Image(); im.onload = () => { fit(im.width / im.height); if (C === CUR) R.draw(C); }; im.onerror = () => { C.ui.url = null; if (C === CUR) R.draw(C); }; im.src = url; }
+    if (url && /\.webp$/.test(url)) { const im = new Image(); im.onload = () => { fit(im.width / im.height); if (C === CUR) R.draw(C); }; im.onerror = () => { C.ui.url = picCode(C.x.kind, C.x.pk); fit(.75); if (C === CUR) R.draw(C); }; im.src = url; }
   }
   function bind(C) {
     C.el.addEventListener('pointerdown', e => {
@@ -2619,7 +2646,7 @@ UI.lights = (() => {
       const N = C.P.N, cs = Math.min(W / N, H / N, 96), G = C.ui.g = { cs, W: cs * N, H: cs * N };
       C.el.style.width = px(G.W); C.el.style.height = px(G.H); C.el.innerHTML = '';
       C.el.insertAdjacentHTML('afterbegin', '<div class="pz" style="left:0;top:0;width:' + px(G.W) + ';height:' + px(G.H) + ';border-radius:' + px(cs * .25) + ';background:#141824;box-shadow:inset 0 0 0 3px #2c3346"></div>');
-      C.ui.cells = [...Array(C.P.n).keys()].map(i => { const e = mk(C.el, 'lamp'); place(e, (i % N) * cs + cs * .1, ((i / N) | 0) * cs + cs * .1, cs * .8, cs * .8); return e; });
+      C.ui.cells = [...Array(C.P.n).keys()].map(i => { const e = mk(C.el, 'lamp'); place(e, (i % N) * cs + cs * .06, ((i / N) | 0) * cs + cs * .06, cs * .88, cs * .88); e.innerHTML = artOr('bulb-off.webp', '', 'full boff') + artOr('bulb-on.webp', '', 'full bon'); return e; });
       if (!C.ui.bound) { C.ui.bound = true; C.el.addEventListener('pointerdown', e => { if (C !== CUR || C.busy || C.over) return; const [x, y] = bpt(C, e), cs2 = C.ui.g.cs, c = Math.floor(x / cs2), r = Math.floor(y / cs2); if (c < 0 || r < 0 || c >= C.P.N || r >= C.P.N) return; doMove([r * C.P.N + c]); }); }
     },
     draw(C) { if (!C.ui.g) return; C.S.on.forEach((v, i) => C.ui.cells[i].classList.toggle('lit', !v)); },   // goal: every lamp lit
@@ -2656,7 +2683,7 @@ UI.pipes = (() => {
         const e = C.ui.cells[i], wet = !!f.wet[i], deg = [1, 2, 4, 8].filter(b => m & b).length;
         const key = m + ':' + wet + ':' + G.cs;
         if (e._k === key) return; e._k = key;
-        const icon = i === P.src ? '🚰' : deg === 1 ? (wet ? '🌻' : '🌱') : '';
+        const icon = i === P.src ? artOr('faucet.webp', '🚰', 'pimg') : deg === 1 ? (wet ? artOr('flower.webp', '🌻', 'pimg') : artOr('sprout.webp', '🌱', 'pimg')) : '';
         e.innerHTML = pipeSVG(m, wet) + (icon ? '<span class="pi" style="font-size:' + px(G.cs * .46) + '">' + icon + '</span>' : '');
         e.style.transform = '';
       });
@@ -2695,8 +2722,9 @@ UI.soko = (() => {
         if (P.wall[i]) g += '<rect x="' + x + '" y="' + y + '" width="' + cs + '" height="' + cs + '" fill="#8d4f3a"/><path d="M' + x + ' ' + (y + cs / 2) + 'h' + cs + 'M' + (x + cs / 2) + ' ' + y + 'v' + cs / 2 + 'M' + (x + cs / 4) + ' ' + (y + cs / 2) + 'v' + cs / 2 + 'M' + (x + cs * .75) + ' ' + (y + cs / 2) + 'v' + cs / 2 + '" stroke="#6d3a2a" stroke-width="2.5"/>';
         else { g += '<rect x="' + x + '" y="' + y + '" width="' + cs + '" height="' + cs + '" fill="' + ((i % P.W + ((i / P.W) | 0)) % 2 ? '#d7ccc8' : '#e0d6d0') + '"/>'; if (P.goal[i]) g += '<circle cx="' + (x + cs / 2) + '" cy="' + (y + cs / 2) + '" r="' + cs * .26 + '" fill="none" stroke="#e53935" stroke-width="' + cs * .07 + '" stroke-dasharray="' + cs * .12 + ' ' + cs * .08 + '"/><circle cx="' + (x + cs / 2) + '" cy="' + (y + cs / 2) + '" r="' + cs * .08 + '" fill="#e53935"/>'; }
       }
+      if (ART_ON) for (let i = 0; i < P.n; i++) { if (P.out[i]) continue; const x = (i % P.W) * cs, y = ((i / P.W) | 0) * cs; g += '<image href="' + (P.wall[i] ? 'wall.webp' : 'floor.webp') + '" x="' + x + '" y="' + y + '" width="' + (cs + .5) + '" height="' + (cs + .5) + '"/>' + (P.goal[i] ? '<image href="target.webp" x="' + (x + cs * .18) + '" y="' + (y + cs * .18) + '" width="' + cs * .64 + '" height="' + cs * .64 + '"/>' : ''); }
       C.el.insertAdjacentHTML('afterbegin', g + '</svg>');
-      C.ui.boxes = C.S.b.map(() => { const e = mk(C.el, 'crate'); e.innerHTML = ('<svg viewBox="0 0 100 100"><rect x="6" y="6" width="88" height="88" rx="10" fill="#c88a3e" stroke="#7a4a1c" stroke-width="6"/><path d="M14 14 L86 86 M86 14 L14 86" stroke="#7a4a1c" stroke-width="9"/><rect x="6" y="6" width="88" height="88" rx="10" fill="none" stroke="#7a4a1c" stroke-width="6"/></svg>'); return e; });
+      C.ui.boxes = C.S.b.map(() => { const e = mk(C.el, 'crate'); e.innerHTML = ('<svg viewBox="0 0 100 100"><rect x="6" y="6" width="88" height="88" rx="10" fill="#c88a3e" stroke="#7a4a1c" stroke-width="6"/><path d="M14 14 L86 86 M86 14 L14 86" stroke="#7a4a1c" stroke-width="9"/><rect x="6" y="6" width="88" height="88" rx="10" fill="none" stroke="#7a4a1c" stroke-width="6"/></svg>') + artOr('crate.webp', '', 'full c0') + artOr('crate-done.webp', '', 'full c1'); return e; });
       C.ui.me = mk(C.el, 'soko-me'); C.ui.me.innerHTML = avHTML(myAv());
       if (!C.ui.bound) { C.ui.bound = true; bind(C); }
     },
@@ -2772,7 +2800,7 @@ const TILE_ART = {
 };
 // drawn home tiles (from the art brief) are used only once they are really there
 let TILE_OK = false;
-const TILE_FILES = ['park', 'ring', 'water', 'nuts', 'unblock', 'blocks', 'flow'];
+const TILE_FILES = ['park', 'ring', 'water', 'nuts', 'unblock', 'blocks', 'flow', 'slide', 'lights', 'pipes', 'soko'];
 function tileProbe() { if (!ART_ON) return; const i = new Image(); i.onload = () => { TILE_OK = true; if (SCREEN === 'home') renderHome(); }; i.src = 'tile-park.webp'; }
 function goHome() { show('home'); renderHome(); }
 function renderHome() {
@@ -2899,6 +2927,7 @@ function renderSettings() {
     + '<label class="f" style="margin-top:10px">' + T('dayNight') + segHTML('mode', [['night', '🌙 ' + T('night')], ['day', '☀️ ' + T('day')]], ST.mode) + '</label></div>'
     + '<div class="card"><h3>' + T('gameplay') + '</h3>'
     + [['sym', 'symbols', 'symbolsD'], ['slideNum', 'slideNum', 'slideNumD'], ['sound', 'sound'], ['vib', 'vibrate']].map(([k, t, d]) => '<div class="sw"><span>' + T(t) + (d ? '<small class="muted">' + T(d) + '</small>' : '') + '</span><input type="checkbox" data-k="' + k + '"' + (ST[k] ? ' checked' : '') + '></div>').join('') + '</div>'
+    + '<div class="card"><h3>🖼️ ' + T('picsOffline') + '</h3><p class="muted" style="font-size:14px">' + T('picsOfflineD') + '</p><button class="btn wide" id="stPics">📥 ' + (LS.get('picsCached', '') ? T('picsDone') : T('picsGet')) + '</button></div>'
     + '<div class="card"><h3>' + T('backup') + '</h3><p class="muted" style="font-size:14px">' + T('backupD') + '</p><div class="row"><button class="btn" id="bkOut">⬇️ ' + T('exportB') + '</button><button class="btn" id="bkIn">⬆️ ' + T('importB') + '</button></div><input type="file" id="bkFile" accept="application/json,.json" class="hide"></div>'
     + '<div class="card"><div class="row"><button class="btn" id="stGuide">🧭 ' + T('guide') + '</button><button class="btn" id="stAbout">ℹ️ ' + T('about') + '</button></div></div>'
     + '<button class="btn wide" id="stReset" style="border-color:var(--bad);color:var(--bad)">' + T('resetAll') + '</button>';
@@ -2907,6 +2936,7 @@ function renderSettings() {
   bindSeg(B, 'lang', v => { ST.lang = v; saveST(); applyLang(); renderSettings(); });
   ['theme', 'mode'].forEach(k => bindSeg(B, k, v => { ST[k] = v; saveST(); applyLook(); }));
   B.querySelectorAll('[data-k]').forEach(c => c.onchange = () => { ST[c.dataset.k] = c.checked; saveST(); });
+  $('#stPics').onclick = () => { const b = $('#stPics'); b.disabled = true; cacheAllPics((n, t) => { b.textContent = '📥 ' + n + '/' + t; }).then(() => { b.disabled = false; b.textContent = '✅ ' + T('picsDone'); toast(T('picsDone')); }); };
   $('#bkOut').onclick = exportBackup; $('#bkIn').onclick = () => $('#bkFile').click();
   $('#bkFile').onchange = e => { const f = e.target.files[0]; if (f) importBackup(f); e.target.value = ''; };
   $('#stGuide').onclick = () => openGuide(); $('#stAbout').onclick = () => { renderAbout(); show('about'); };
