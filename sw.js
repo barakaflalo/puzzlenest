@@ -20,7 +20,7 @@
 })();
 
 /* PuzzleNest service worker — network-first for pages (never a bare error), cache-first for files */
-const VERSION = 'puzzlenest-v2';
+const VERSION = 'puzzlenest-v3';
 const CORE = ['./', 'manifest.json', 'icon-192.png', 'icon-512.png', 'privacy_policy.html'];
 // the animals (from FamilyNest) + 1.1: home tiles and game pieces from the second AI — cached on install so the pictures work offline too.
 // A missing file is fine: each one is cached on its own (allSettled) and the app falls back to emoji / drawn tiles.
