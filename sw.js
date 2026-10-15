@@ -20,7 +20,7 @@
 })();
 
 /* PuzzleNest service worker — network-first for pages (never a bare error), cache-first for files */
-const VERSION = 'puzzlenest-v5';
+const VERSION = 'puzzlenest-v6';
 const CORE = ['./', 'manifest.json', 'icon-192.png', 'icon-512.png', 'privacy_policy.html'];
 // the animals (from FamilyNest) + 1.1/1.2: home tiles and game pieces from the second AI.
 // The 71 slide-puzzle pictures (~11 MB) are NOT here: they are cached when first used, or all at once from Settings — cached on install so the pictures work offline too.
