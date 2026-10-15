@@ -208,6 +208,9 @@ label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mu
 .acard{aspect-ratio:3/4;border-radius:16px;border:2px dashed var(--line);background:var(--panel2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted)}
 .acard i{font-style:normal;font-size:38px;opacity:.5;filter:grayscale(1)}
 .acard small{font-size:12px}
+.al-grid.cb .acard:not(.got){background:url(card-back.webp) center/cover no-repeat;border:0;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.al-grid.cb .acard:not(.got) i{visibility:hidden}
+.al-grid.cb .acard:not(.got) small{margin-top:auto;margin-bottom:12%;background:rgba(0,0,0,.55);color:#fff;border-radius:9px;padding:1px 8px}
 .acard.got{border:2px solid rgba(255,255,255,.5);background:linear-gradient(160deg,#4fc3f7,#7e57c2);color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.3)}
 .acard.got i{opacity:1;filter:none;font-size:46px}
 .acard.gold.got{background:linear-gradient(160deg,#ffe082,#ff8f00)}
@@ -2243,7 +2246,7 @@ ar: { subtitle: 'ألغاز لكل العائلة!', rules: 'كيف نلعب', s
    PuzzleNest — app core (storage · settings · screens · sound · confetti · art)
    Shell taken from FamilyNest 1.3 (themes, day/night, storage shim, sounds, art fallback).
    ===================================================================== */
-const APP_VERSION = '1.4.0';
+const APP_VERSION = '1.4.2';
 const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 // players on this phone: each one keeps their own progress under their own key prefix (player 0 = the original keys)
@@ -4383,7 +4386,7 @@ function renderAlbum() {
   const own = new Set(cardsOwned()), s = allStars(), next = [...Array(CARD_N).keys()].find(k => !own.has(k));
   let h = '<div class="card al-top"><b>🃏 <span class="ltr">' + own.size + '/' + (CARD_N + 12) + '</span></b><span>' + (next != null ? T('alNext', { n: cardAt(next) - s }) : T('alAll')) + '</span></div>';
   h += '<div class="al-tabs">' + ALBUM.map(([id], p) => { const got = [...Array(12).keys()].filter(j => own.has(p * 12 + j)).length; return '<button data-ap="' + p + '"' + (p === albumPage ? ' class="on"' : '') + '><i>' + albumCards(p)[0] + '</i>' + T('al_' + id) + '<small class="ltr">' + got + '/12</small></button>'; }).join('') + '</div>';
-  h += '<div class="al-grid">' + [...Array(12).keys()].map(j => { const k = albumPage * 12 + j, got = own.has(k); return '<button class="acard' + (got ? ' got' : '') + (k >= CARD_N ? ' gold' : '') + '" data-ac="' + k + '"><i>' + (got ? cardEmoji(k) : '❔') + '</i><small class="ltr">' + (got ? '#' + (k + 1) : k >= CARD_N ? '🎯' + (k - CARD_N + 1) : '⭐' + cardAt(k)) + '</small></button>'; }).join('') + '</div>';
+  h += '<div class="al-grid' + (TILE_OK ? ' cb' : '') + '">' + [...Array(12).keys()].map(j => { const k = albumPage * 12 + j, got = own.has(k); return '<button class="acard' + (got ? ' got' : '') + (k >= CARD_N ? ' gold' : '') + '" data-ac="' + k + '"><i>' + (got ? cardEmoji(k) : '❔') + '</i><small class="ltr">' + (got ? '#' + (k + 1) : k >= CARD_N ? '🎯' + (k - CARD_N + 1) : '⭐' + cardAt(k)) + '</small></button>'; }).join('') + '</div>';
   if (albumPage === 6) h += '<p class="muted" style="text-align:center;font-size:14px">' + T('alGold') + '</p>';
   const B = $('#albumBody'); B.innerHTML = h;
   B.querySelectorAll('[data-ap]').forEach(b => b.onclick = () => { albumPage = +b.dataset.ap; renderAlbum(); });
@@ -4450,7 +4453,7 @@ const TILE_ART = {
 };
 // drawn home tiles (from the art brief) are used only once they are really there
 let TILE_OK = false;
-const TILE_FILES = ['park', 'ring', 'water', 'nuts', 'unblock', 'blocks', 'flow', 'slide', 'lights', 'pipes', 'soko'];
+const TILE_FILES = ['park', 'ring', 'water', 'nuts', 'unblock', 'blocks', 'flow', 'slide', 'lights', 'pipes', 'soko', 'hashi', 'sudoku', 'hanoi', 'rotate', 'nono', 'tangram', 'line', 'maze', 'kakuro', 'mmind', 'mines'];
 function tileProbe() { if (!ART_ON) return; const i = new Image(); i.onload = () => { TILE_OK = true; if (SCREEN === 'home') renderHome(); }; i.src = 'tile-park.webp'; }
 function goHome() { show('home'); renderHome(); }
 function renderHome() {
