@@ -132,6 +132,19 @@ label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mu
 .gt-kakuro{background:linear-gradient(160deg,#a1887f,#4e342e)}
 .gt-mmind{background:linear-gradient(160deg,#ec407a,#6a1b4d)}
 .gt-mines{background:linear-gradient(160deg,#78909c,#37474f)}
+/* 1.5: painted backgrounds (bg-*.webp) — only once the file really loaded (.hasbg) */
+.scr.hasbg{position:relative;isolation:isolate}
+.scr.hasbg::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--veil),var(--bgimg) center/cover no-repeat}
+:root{--veil:linear-gradient(rgba(6,6,9,.40),rgba(6,6,9,.40));--veilHome:linear-gradient(rgba(6,6,9,.52),rgba(6,6,9,.62));--veilBoard:radial-gradient(ellipse at 50% 45%,rgba(8,8,12,.50),rgba(8,8,12,.18) 72%)}
+[data-mode="day"]{--veil:linear-gradient(rgba(255,253,246,.28),rgba(255,253,246,.28));--veilHome:linear-gradient(rgba(255,253,246,.50),rgba(255,253,246,.62));--veilBoard:radial-gradient(ellipse at 50% 45%,rgba(255,253,246,.50),rgba(255,253,246,.12) 72%)}
+#home.hasbg::before,#map.hasbg::before{background:var(--veilHome),var(--bgimg) center/cover no-repeat}
+#game.hasbg .bwrap{background:var(--veilBoard)}
+#game.hasbg .gtop,#game.hasbg .ginfo,#game.hasbg .gact{background:color-mix(in srgb,var(--panel) 80%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+/* boards that draw straight on the background get a soft plate, so a busy painting never eats them */
+:root{--plate:rgba(10,10,14,.55)}
+[data-mode="day"]{--plate:rgba(255,253,246,.74)}
+#game.hasbg :is(.bd-ring,.bd-water,.bd-nuts,.bd-hashi,.bd-hanoi,.bd-line,.bd-tangram,.bd-mmind){background:var(--plate);border-radius:18px;box-shadow:0 0 0 10px var(--plate)}
+#map.hasbg .mapHead{background:color-mix(in srgb,var(--panel2) 82%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 /* 1.4: tangram */
 .tg-p{position:absolute;pointer-events:none;z-index:2;transition:left .12s,top .12s}
 .tg-p polygon{pointer-events:visiblePainted;cursor:grab}
@@ -2246,7 +2259,7 @@ ar: { subtitle: 'ألغاز لكل العائلة!', rules: 'كيف نلعب', s
    PuzzleNest — app core (storage · settings · screens · sound · confetti · art)
    Shell taken from FamilyNest 1.3 (themes, day/night, storage shim, sounds, art fallback).
    ===================================================================== */
-const APP_VERSION = '1.4.2';
+const APP_VERSION = '1.5.1';
 const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 // players on this phone: each one keeps their own progress under their own key prefix (player 0 = the original keys)
@@ -2417,6 +2430,24 @@ function anim(el, kf, ms, easing) {
 const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
 const dayNo = s => Math.floor(Date.UTC(+s.slice(0, 4), +s.slice(5, 7) - 1, +s.slice(8, 10)) / 864e5);
 
+/* ---- bg.js ---- */
+/* =====================================================================
+   PuzzleNest 1.5 — painted backgrounds
+   bg-<game>.webp under every game screen, bg-home.webp on the home page, bg-menu.webp on the level map.
+   A file that is not there (yet) = the screen keeps its old plain background.
+   ===================================================================== */
+const BGS = {};                                                        // id → true · false · Promise while loading
+function bgReady(id) {
+  if (!ART_ON) return Promise.resolve(false);
+  const v = BGS[id]; if (v === true || v === false) return Promise.resolve(v); if (v) return v;
+  return (BGS[id] = new Promise(res => { const i = new Image(); i.onload = () => { BGS[id] = true; res(true); }; i.onerror = () => { BGS[id] = false; res(false); }; i.src = 'bg-' + id + '.webp'; }));
+}
+function setBg(el, id) {
+  if (!el) return; if (el.dataset.bg === id && el.classList.contains('hasbg')) return;
+  el.dataset.bg = id; el.classList.remove('hasbg'); el.style.removeProperty('--bgimg');
+  bgReady(id).then(ok => { if (ok && el.dataset.bg === id) { el.style.setProperty('--bgimg', 'url("bg-' + id + '.webp")'); el.classList.add('hasbg'); } });
+}
+
 /* ---- play.js ---- */
 /* =====================================================================
    PuzzleNest — the game controller: one screen for all seven games.
@@ -2461,6 +2492,7 @@ function openLevel(g, i, mode, saved) {
   CUR.played = Date.now();
   CNT.played[g] = 1; saveCnt();
   const B = $('#board'); B.innerHTML = ''; B.className = 'bd bd-' + g; CUR.el = B;
+  setBg($('#game'), g);
   if (UI[g].mount) UI[g].mount(CUR, B);
   renderTop(); show('game');
   requestAnimationFrame(() => { fitBoard(); saveCur(); if (!saved && UI[g].intro) UI[g].intro(CUR); });
@@ -4457,6 +4489,7 @@ const TILE_FILES = ['park', 'ring', 'water', 'nuts', 'unblock', 'blocks', 'flow'
 function tileProbe() { if (!ART_ON) return; const i = new Image(); i.onload = () => { TILE_OK = true; if (SCREEN === 'home') renderHome(); }; i.src = 'tile-park.webp'; }
 function goHome() { show('home'); renderHome(); }
 function renderHome() {
+  setBg($('#home'), 'home');
   $('#verLbl').textContent = 'v' + APP_VERSION;
   $('#meAv').innerHTML = avHTML(myAv()); $('#meName').textContent = ST.name || T('you');
   $('#gameGrid').innerHTML = GAME_IDS.map((g, k) => {
@@ -4484,6 +4517,7 @@ function renderHome() {
 const CHAP = 25;
 const GCOL = { park: '#5b7d9e', ring: '#ff7a59', water: '#3db4f2', nuts: '#8a96a3', unblock: '#f0a92c', blocks: '#9b5de5', flow: '#16b6a8', slide: '#e8508a', lights: '#f2c230', pipes: '#4f9e3f', soko: '#b8783c', hashi: '#1e88e5', sudoku: '#5e35b1', hanoi: '#d84315', rotate: '#00897b', nono: '#c2185b', tangram: '#3949ab', line: '#ef6c00', maze: '#2e7d32', kakuro: '#6d4c41', mmind: '#ad1457', mines: '#546e7a' };
 function openMap(g) {
+  setBg($('#map'), 'menu');
   const n = NLV(g), cur = unlockedUpTo(g), p = prog(g);
   $('#mapTitle').textContent = GICON[g] + ' ' + gname(g);
   const three = Object.values(p.s).filter(x => x === 3).length;
